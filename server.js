@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.post("/register", async (req, res) => {
     try {
         // Hash the password before saving
-        const hashedPassword = await bcrypt.hash(req.body.password, 10); // 10 is the salt rounds
+        const hashedPassword = await bcrypt.hash(req.body.password, 10); 
 
         const user = new User({
             firstName: req.body.firstName,
@@ -48,7 +48,7 @@ app.post("/register", async (req, res) => {
         console.log('User ID:', user._id);
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, 'yourSecretKey', { expiresIn: '1h' }); // Change 'yourSecretKey' to your secret key
+        const token = jwt.sign({ userId: user._id }, 'yourSecretKey', { expiresIn: '1h' }); 
 
         res.send({
             message: "User registered successfully",
@@ -75,8 +75,7 @@ app.post("/login", async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, "yourSecret", { expiresIn: '1h' }); // Change 'yourSecret' to your secret key
-
+        const token = jwt.sign({ userId: user._id }, "yourSecret", { expiresIn: '1h' }); 
         res.send({
             message: "User logged in successfully",
             token: token,
@@ -129,7 +128,7 @@ app.get('/getUserProperties/:id', async (req, res) => {
             return res.status(400).send('User not found');
         }
 
-        const properties = user.properties; // Assuming user.properties is an array of property IDs
+        const properties = user.properties; 
 
         // Use Promise.all to wait for all Property.findOne operations to complete
         const userProperties = await Promise.all(properties.map(async (propertyId) => {
@@ -170,7 +169,6 @@ app.delete('/deleteProperty/:id', async (req, res) => {
             return res.status(400).send('User not found');
         }
 
-        // Remove property from user's properties array
         user.properties = user.properties.filter(propertyId => propertyId.toString() !== req.params.id);
         await user.save();
 
